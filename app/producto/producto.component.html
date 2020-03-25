@@ -1,0 +1,57 @@
+<input type="text" [(ngModel)]="searchMessage" (input)="showSearchMessageFunc()" (keydown.enter)="bySearchBar()">
+<button type="button" (click)="bySearchBar()">Submit</button>
+<br>
+
+<!-- Barra de busqueda-->
+<div [hidden] = !showSearchMessage>
+    <small>Busqueda: {{searchMessage}}</small>
+</div>
+<br><br>
+
+<!-- Filtros-->
+<div>
+    <input type="checkbox" id="existencias" name="existencias" (click)="byExistencias()">
+    <label for="existencias">Solo en Existencias</label><br>
+    <input type="checkbox" id="precio" name="precio" (click)="byMenorMayor()">
+    <label for="precio">Ordenar por Precio (menor a mayor)</label><br>
+    <input type="checkbox" id="existenciasMayor3" name="existenciasMayor3" value="Boat" (click)="byResaltarMayor3()">
+    <label for="existenciasMayor3">Resaltar existencia mayor a 3</label><br> 
+</div>
+<br><br>
+
+<!-- Tabla con productos-->
+<table>
+    <div *ngFor="let producto of productsToShow; let i = index">
+        <div [ngClass]="(resaltarMayor == true && producto.existencia > 3) ? 'resaltar' : ''">
+            <tr>
+                <th rowspan="6"><img src="https://picsum.photos/id/{{i+1}}/100/100" width="100" height="100"></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">{{producto.nombre}}</td>
+            </tr>
+            <tr>
+                <td>Precio (MXN): {{producto.precio}}</td>
+            </tr>
+            <tr>
+                <td>Marca: {{producto.marca}}</td>
+            </tr>
+            <tr>
+                <td>Descripción: {{producto.descripcion}}</td>
+            </tr>
+            <tr>
+                <td>Existencias: {{producto.existencia}}</td>
+            </tr>
+        </div>
+    </div>
+</table>
+
+<div *ngIf="productsToShow.length == 0" class="alert alert-danger" role="alert">
+    This is a danger alert—check it out!
+</div>
+
+<style>
+    .resaltar{
+        background-color: darkolivegreen;
+    }
+</style>
